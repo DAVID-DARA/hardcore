@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import client, { urlFor } from "../lib/sanity";
 import { formatPrice } from "../utils/format";
-import "../styles/ProductCard.css"
+import "../styles/ProductCard.css";
 
 export default function ProductCard({ product }) {
   if (!product) return null;
@@ -19,18 +19,31 @@ export default function ProductCard({ product }) {
   }
 
   return (
-    <div className="card">
-      <div className="ph">
-        {imageUrl ? (
-          <img src={imageUrl} alt={product.name || product.title || "Product"} />
-        ) : (
-          <div style={{ background: "#f3f4f6", height: "100%", borderRadius: 12 }} />
-        )}
-      </div>
+    <div className="product-card">
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={product.name || product.title || "Product"}
+          className="product-image"
+        />
+      ) : (
+        <div
+          style={{
+            background: "#f3f4f6",
+            height: "250px",
+            borderRadius: "8px",
+            marginBottom: "10px"
+          }}
+        />
+      )}
 
       <div className="product-title">{product.name || product.title}</div>
       <div className="price">{formatPrice(product.price)}</div>
-      <Link to={`/products/${product.slug?.current || product._id}`} className="btn" style={{ marginTop: 12 }}>
+      <Link
+        to={`/products/${product.slug?.current || product._id}`}
+        className="btn"
+        style={{ marginTop: 12 }}
+      >
         View
       </Link>
     </div>
