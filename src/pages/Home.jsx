@@ -3,6 +3,7 @@ import ProductGrid from "../components/ProductGrid";
 import Skeleton from "../components/Skeleton";
 import useProducts from "../hooks/useProducts";
 import NewIn from "../components/NewIn";
+import "../styles/Home.css"; // import CSS
 
 export default function Home() {
   const { products, loading } = useProducts();
@@ -11,49 +12,16 @@ export default function Home() {
   return (
     <>
       {/* HERO */}
-      <section
-        className="hero"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 40,
-          alignItems: "center",
-          padding: "4rem 2rem",
-        }}
-      >
+      <section className="hero">
         <div>
-          <h1
-            style={{
-              fontSize: 48,
-              fontFamily: "Playfair Display, serif",
-              marginBottom: 16,
-            }}
-          >
-            Discover Your Signature Look
-          </h1>
-          <p style={{ fontSize: 18, marginBottom: 24, color: "#374151" }}>
-            Curated ready-to-wear pieces with a minimalist luxury touch.
-          </p>
-          <Link
-            to="/products"
-            className="btn"
-            style={{
-              padding: "0.75rem 1.5rem",
-              background: "black",
-              color: "white",
-              borderRadius: 8,
-              textDecoration: "none",
-            }}
-          >
-            Shop Now
-          </Link>
+          <h1>Discover Your Signature Look</h1>
+          <p>Curated ready-to-wear pieces with a minimalist luxury touch.</p>
+          <Link to="/products" className="btn">Shop Now</Link>
         </div>
 
         <div
+          className="hero-img"
           style={{
-            borderRadius: 16,
-            overflow: "hidden",
-            height: "500px",
             background: "#e5e7eb url('https://via.placeholder.com/500x500?text=Hero+Image') center/cover no-repeat",
           }}
         />
@@ -74,68 +42,22 @@ export default function Home() {
       </div>
 
       {/* NEW ARRIVALS */}
-      {/* <section className="section" style={{ padding: "4rem 2rem" }}>
-        <h2
-          style={{
-            fontFamily: "Playfair Display, serif",
-            fontSize: 32,
-            marginBottom: 24,
-          }}
-        >
-          New In
-        </h2>
-        {loading ? <Skeleton rows={3} /> : <ProductGrid products={products} />}
-      </section> */}
-
-    <section className="section">
+      <section className="section">
         {loading ? <Skeleton rows={3} /> : <NewIn products={products} />}
       </section>
 
       {/* FEATURED COLLECTIONS */}
-      <section
-        className="section"
-        style={{
-          padding: "4rem 2rem",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 32,
-          alignItems: "center",
-        }}
-      >
+      <section className="section featured">
         <div
+          className="featured-img"
           style={{
-            background:
-              "#f3f4f6 url('https://via.placeholder.com/400x500?text=Featured+1') center/cover no-repeat",
-            height: 400,
-            borderRadius: 12,
+            background: "#f3f4f6 url('https://via.placeholder.com/400x500?text=Featured+1') center/cover no-repeat",
           }}
         />
         <div>
-          <h2
-            style={{
-              fontFamily: "Playfair Display, serif",
-              fontSize: 28,
-              marginBottom: 16,
-            }}
-          >
-            Featured Collections
-          </h2>
-          <p style={{ color: "#4b5563", marginBottom: 24 }}>
-            Explore timeless pieces curated to inspire confidence and style.
-          </p>
-          <Link
-            to="/products"
-            className="btn"
-            style={{
-              padding: "0.75rem 1.5rem",
-              background: "black",
-              color: "white",
-              borderRadius: 8,
-              textDecoration: "none",
-            }}
-          >
-            Explore
-          </Link>
+          <h2>Featured Collections</h2>
+          <p>Explore timeless pieces curated to inspire confidence and style.</p>
+          <Link to="/products" className="btn">Explore</Link>
         </div>
       </section>
 
@@ -147,15 +69,7 @@ export default function Home() {
           background: "#fafafa",
         }}
       >
-        <h2
-          style={{
-            fontFamily: "Playfair Display, serif",
-            fontSize: 28,
-            marginBottom: 16,
-          }}
-        >
-          MudaMuse was created to inspire you
-        </h2>
+        <h2>MudaMuse was created to inspire you</h2>
         <p style={{ color: "#4b5563", maxWidth: 700, margin: "0 auto" }}>
           Our goal is to bring you clothes that blanket you in quality, design,
           and comfort. Elevate your wardrobe with pieces that stand the test of
@@ -164,48 +78,16 @@ export default function Home() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 32,
-          padding: "4rem 2rem",
-        }}
-      >
+      <section className="section contact">
         <div>
-          <h2
-            style={{
-              fontSize: 28,
-              fontFamily: "Playfair Display, serif",
-              marginBottom: 16,
-            }}
-          >
-            Get in Touch
-          </h2>
-          <p style={{ color: "#4b5563", marginBottom: 24 }}>
-            Have questions? Our team is here to help you find your perfect
-            style.
-          </p>
-          <Link
-            to="/contact"
-            className="btn"
-            style={{
-              padding: "0.75rem 1.5rem",
-              background: "black",
-              color: "white",
-              borderRadius: 8,
-              textDecoration: "none",
-            }}
-          >
-            Contact Us
-          </Link>
+          <h2>Get in Touch</h2>
+          <p>Have questions? Our team is here to help you find your perfect style.</p>
+          <Link to="/contact" className="btn">Contact Us</Link>
         </div>
         <div
+          className="contact-img"
           style={{
-            borderRadius: 12,
-            height: 400,
-            background:
-              "#f3f4f6 url('https://via.placeholder.com/400x400?text=Contact+Image') center/cover no-repeat",
+            background: "#f3f4f6 url('https://via.placeholder.com/400x400?text=Contact+Image') center/cover no-repeat",
           }}
         />
       </section>
