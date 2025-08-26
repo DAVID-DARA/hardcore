@@ -1,12 +1,5 @@
-import { createClient } from "@sanity/client";
+import client from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
-
-const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
-  dataset: import.meta.env.VITE_SANITY_DATASET,
-  apiVersion: "2025-01-01",
-  useCdn: true,
-});
 
 const builder = imageUrlBuilder(client);
 
@@ -17,37 +10,38 @@ export function urlFor(source) {
 // Fetch all products
 export async function getProducts() {
   try {
-    const query = `*[_type == "product"]{
-      _id,
-      name,
-      price,
-      description,
-      "imageUrl": images[0].asset->url
-    }`;
+    const query = `*[_type == "product"] | order(_createdAt desc){
+    _id, 
+    name, 
+    price, 
+    description, 
+    slug, 
+    image, 
+    images[], 
+    _createdAt
+  }`;
 
-    const products = await client.fetch(query);
-    return products;
+    return await client.fetch(query);
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];
   }
 }
 
-// Fetch a single product by ID
-export async function getProductById(id) {
+// Fetch product by slug
+export async function getProductBySlug(slug) {
   try {
-    const query = `*[_type == "product" && _id == $id][0]{
+    const query = `*[_type == "product" && slug.current == $slug][0]{
       _id,
       name,
       price,
       description,
-      images[]{
-        "url": asset->url
-      }
+      slug,
+      image,
+      images[]
     }`;
 
-    const product = await client.fetch(query, { id });
-    return product;
+    return await client.fetch(query, { slug });
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;

@@ -8,8 +8,12 @@ import { useCart } from "../context/CartContext";
 export default function ProductDetail() {
   const { slug } = useParams();
   const { product, loading } = useProduct(slug);
-  const { addToCart } = useCart();
+  const { dispatch } = useCart();
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleAddToCart = () => {
+    dispatch({ type: "ADD_TO_CART", payload: product });
+  };
 
   useEffect(() => setActiveIndex(0), [slug]);
 
@@ -33,13 +37,18 @@ export default function ProductDetail() {
 
   const title = product.title || product.name || "Untitled";
   const price = product.price ?? 0;
-  const images = Array.isArray(product.images) ? product.images : [];
+
+  // 🔑 handle both single image and array of images
+  const images = Array.isArray(product.images)
+    ? product.images
+    : product.image
+    ? [product.image]
+    : [];
+
   const mainImage = images[activeIndex];
 
-  const waNumber = import.meta.env.VITE_WHATSAPP_NUMBER; // e.g., 234XXXXXXXXXX
-  const waText = `Hello, I'm interested in "${title}" (${formatCurrency(
-    price
-  )}).`;
+  const waNumber = import.meta.env.VITE_WHATSAPP_NUMBER;
+  const waText = `Hello, I'm interested in "${title}" (${formatCurrency(price)}).`;
   const waHref = waNumber
     ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`
     : "/contact";
@@ -47,25 +56,52 @@ export default function ProductDetail() {
   return (
     <section
       className="section"
-      style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 40,
+        alignItems: "start",
+      }}
     >
-      <div className="card">
-        <div className="ph" style={{ height: 520, borderRadius: 12 }}>
+      {/* LEFT: Images */}
+      <div>
+        <div
+          style={{
+            borderRadius: 12,
+            overflow: "hidden",
+            border: "1px solid #ddd",
+            marginBottom: 16,
+          }}
+        >
           {mainImage ? (
             <img
-              src={urlFor(mainImage).width(1000).height(1200).url()}
+              src={urlFor(mainImage).width(800).height(1000).url()}
               alt={title}
+              style={{
+                width: "100%",
+                height: "500px",
+                objectFit: "cover",
+                display: "block",
+              }}
             />
-          ) : null}
+          ) : (
+            <div
+              style={{
+                height: "500px",
+                background: "#f3f4f6",
+                borderRadius: 12,
+              }}
+            />
+          )}
         </div>
 
         {images.length > 1 && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5,1fr)",
-              gap: 8,
-              marginTop: 12,
+              display: "flex",
+              gap: 12,
+              overflowX: "auto",
+              paddingBottom: 8,
             }}
           >
             {images.map((img, i) => (
@@ -74,20 +110,24 @@ export default function ProductDetail() {
                 type="button"
                 onClick={() => setActiveIndex(i)}
                 style={{
+                  flex: "0 0 auto",
                   border:
-                    i === activeIndex
-                      ? "2px solid var(--primary)"
-                      : "1px solid var(--border)",
+                    i === activeIndex ? "2px solid black" : "1px solid #ddd",
                   borderRadius: 8,
                   padding: 2,
-                  background: "#fff",
                   cursor: "pointer",
+                  background: "white",
                 }}
-                aria-label={`Select image ${i + 1}`}
               >
                 <img
                   src={urlFor(img).width(200).height(200).url()}
                   alt={`${title} thumbnail ${i + 1}`}
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    objectFit: "cover",
+                    borderRadius: 6,
+                  }}
                 />
               </button>
             ))}
@@ -95,36 +135,81 @@ export default function ProductDetail() {
         )}
       </div>
 
+      {/* RIGHT: Product Info */}
       <div>
         <h1
           style={{
             fontFamily: "Playfair Display, serif",
-            fontSize: 40,
-            margin: "0 0 8px",
+            fontSize: 36,
+            marginBottom: 8,
           }}
         >
           {title}
         </h1>
-        <div className="price" style={{ fontSize: 20, marginBottom: 16 }}>
+        <div
+          style={{
+            fontSize: 22,
+            fontWeight: "600",
+            marginBottom: 16,
+            color: "#111827",
+          }}
+        >
           {formatCurrency(price)}
         </div>
+
         {product.description && (
-          <p style={{ color: "#4b5563", lineHeight: 1.7 }}>
+          <p style={{ color: "#4b5563", lineHeight: 1.6 }}>
             {product.description}
           </p>
         )}
 
-        <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-          <button className="btn" onClick={() => addToCart(product)}>
+        <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+          <button
+            className="btn"
+            onClick={handleAddToCart}
+            style={{
+              padding: "0.75rem 1.5rem",
+              border: "none",
+              borderRadius: 6,
+              background: "black",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
             Add to Cart
           </button>
-          <a className="btn outline" href={waHref}>
+          <a
+            className="btn outline"
+            href={waHref}
+            style={{
+              padding: "0.75rem 1.5rem",
+              border: "1px solid black",
+              borderRadius: 6,
+              background: "white",
+              color: "black",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+            }}
+          >
             Contact to Order
           </a>
         </div>
 
         <div style={{ marginTop: 16 }}>
-          <Link to="/products" className="btn outline">
+          <Link
+            to="/products"
+            className="btn outline"
+            style={{
+              display: "inline-block",
+              marginTop: 12,
+              padding: "0.5rem 1rem",
+              border: "1px solid #ddd",
+              borderRadius: 6,
+              textDecoration: "none",
+              color: "#374151",
+            }}
+          >
             Continue Shopping
           </Link>
         </div>

@@ -6,17 +6,17 @@ export default function useProducts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchProducts() {
       try {
         const data = await getProducts();
         setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
     }
-    fetchData();
+    fetchProducts();
   }, []);
 
   return { products, loading };
