@@ -15,7 +15,7 @@ export default function NewIn({ products = [] }) {
   return (
     <section className="newin">
       <div className="newin__head">
-        <h2 className="newin__title">New In</h2>
+        <h2 className="newin__title">New Arrivals</h2>
 
         <div className="newin__meta">
           <p className="newin__copy">
