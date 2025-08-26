@@ -69,7 +69,7 @@ export default function Home() {
           background: "#fafafa",
         }}
       >
-        <h2>MudaMuse was created to inspire you</h2>
+        <h2>{companyName} was created to inspire you</h2>
         <p style={{ color: "#4b5563", maxWidth: 700, margin: "0 auto" }}>
           Our goal is to bring you clothes that blanket you in quality, design,
           and comfort. Elevate your wardrobe with pieces that stand the test of
