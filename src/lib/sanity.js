@@ -14,4 +14,14 @@ export function urlFor(source) {
   return builder.image(source);
 }
 
+client
+  .fetch(`*[_type == "product"]`)
+  .then((res) => {
+    console.log("Sanity connection successful ✅:", res);
+  })
+  .catch((err) => {
+    console.error("Sanity connection failed ❌:", err.message);
+  });
+
 export default client;
+export { client };

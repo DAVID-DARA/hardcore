@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { getProductById } from "../services/productService";
+import { getProductBySlug } from "../services/productService";
 
-export default function useProduct(id) {
+export default function useProduct(slug) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+    if (!slug) return;
 
     async function fetchData() {
       try {
-        const data = await getProductById(id);
+        const data = await getProductBySlug(slug);
         setProduct(data);
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -19,7 +19,7 @@ export default function useProduct(id) {
       }
     }
     fetchData();
-  }, [id]);
+  }, [slug]);
 
   return { product, loading };
 }

@@ -1,15 +1,17 @@
-import ProductCard from './ProductCard'
+import ProductCard from "./ProductCard";
+import "../styles/productGrid.css";
 
+export default function ProductGrid({ products }) {
+  
+  if (!products || products.length === 0) {
+    return <p>No products found.</p>;
+  }
 
-export default function ProductGrid({ products = [] }){
-    if(products.length === 0){
-        return <p style={{color:'#6b7280'}}>No products yet. Add some in Sanity Studio.</p>
-    }
-    return (
-        <div className="grid">
-            {products.map(p => (
-                <ProductCard key={p._id} product={p} />
-            ))}
-        </div>
-    );
+  return (
+    <div className="product-grid">
+      {products.map((product) => (
+        <ProductCard key={product._id} product={product} />
+      ))}
+    </div>
+  );
 }
