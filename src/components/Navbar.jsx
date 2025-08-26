@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 export default function Navbar() {
   const { state } = useCart();
   const count = state.cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const companyName = import.meta.env.VITE_COMPANY_NAME;
 
   return (
     <nav className="nav">
@@ -12,7 +13,7 @@ export default function Navbar() {
         to="/"
         style={{ fontWeight: 700, fontFamily: "Playfair Display, serif", fontSize: 24 }}
       >
-        Hardcore
+        {companyName}
       </Link>
       <ul>
         <li><NavLink to="/" end>Home</NavLink></li>
