@@ -6,6 +6,7 @@ import NewIn from "../components/NewIn";
 
 export default function Home() {
   const { products, loading } = useProducts();
+  const companyName = import.meta.env.VITE_COMPANY_NAME;
 
   return (
     <>
@@ -218,7 +219,7 @@ export default function Home() {
           padding: "2rem",
         }}
       >
-        <p>© ModaMuse {new Date().getFullYear()} — All rights reserved.</p>
+        <p>© {companyName} {new Date().getFullYear()} — All rights reserved.</p>
       </footer>
     </>
   );
