@@ -6,6 +6,7 @@ const client = createClient({
   dataset: import.meta.env.VITE_SANITY_DATASET,
   apiVersion: "2024-01-01",
   useCdn: true,
+  studioHost: import.meta.env.STUDIO_HOST,
 });
 
 const builder = imageUrlBuilder(client);
