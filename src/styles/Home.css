@@ -8,7 +8,17 @@
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: center;
-  padding: 4rem 2rem;
+  padding: 2rem; /* reduce padding so image can truly fill */
+  min-height: 100vh; /* hero fills screen height */
+}
+
+.hero-img {
+  border-radius: 16px;
+  width: 100%;
+  height: 100%; /* take up available space */
+  min-height: 100vh; /* ensure full screen height */
+  background-size: cover;
+  background-position: center;
 }
 
 .hero h1 {
