@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import client, { urlFor } from "../lib/sanity";
 import { formatPrice } from "../utils/format";
-import "../styles/ProductCard.css";
+import "../styles/productCard.css";
 
 export default function ProductCard({ product }) {
   if (!product) return null;
