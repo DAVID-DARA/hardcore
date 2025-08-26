@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import ProductGrid from "../components/ProductGrid";
 import Skeleton from "../components/Skeleton";
 import useProducts from "../hooks/useProducts";
+import NewIn from "../components/NewIn";
 
 export default function Home() {
   const { products, loading } = useProducts();
@@ -72,7 +73,7 @@ export default function Home() {
       </div>
 
       {/* NEW ARRIVALS */}
-      <section className="section" style={{ padding: "4rem 2rem" }}>
+      {/* <section className="section" style={{ padding: "4rem 2rem" }}>
         <h2
           style={{
             fontFamily: "Playfair Display, serif",
@@ -83,6 +84,10 @@ export default function Home() {
           New In
         </h2>
         {loading ? <Skeleton rows={3} /> : <ProductGrid products={products} />}
+      </section> */}
+
+    <section className="section">
+        {loading ? <Skeleton rows={3} /> : <NewIn products={products} />}
       </section>
 
       {/* FEATURED COLLECTIONS */}

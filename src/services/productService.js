@@ -11,14 +11,15 @@ export function urlFor(source) {
 export async function getProducts() {
   try {
     const query = `*[_type == "product"] | order(_createdAt desc){
-      _id,
-      name,
-      price,
-      description,
-      slug,
-      image,       // ✅ full image object
-      images[]     // ✅ optional array of images
-    }`;
+    _id, 
+    name, 
+    price, 
+    description, 
+    slug, 
+    image, 
+    images[], 
+    _createdAt
+  }`;
 
     return await client.fetch(query);
   } catch (error) {
