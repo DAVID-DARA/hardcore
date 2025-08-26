@@ -4,6 +4,7 @@ import useProduct from "../hooks/useProduct";
 import { urlFor } from "../lib/sanity";
 import formatCurrency from "../utils/formatCurrency";
 import { useCart } from "../context/CartContext";
+import "../styles/ProductDetail.css";
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -20,7 +21,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <section className="section">
-        <div className="ph" style={{ height: 480, borderRadius: 16 }} />
+        <div className="ph skeleton" />
       </section>
     );
   }
@@ -28,7 +29,7 @@ export default function ProductDetail() {
     return (
       <section className="section">
         <p>Product not found.</p>
-        <Link to="/products" className="btn" style={{ marginTop: 12 }}>
+        <Link to="/products" className="btn">
           Back to Shop
         </Link>
       </section>
@@ -38,7 +39,7 @@ export default function ProductDetail() {
   const title = product.title || product.name || "Untitled";
   const price = product.price ?? 0;
 
-  // 🔑 handle both single image and array of images
+  // Handle both single and array images
   const images = Array.isArray(product.images)
     ? product.images
     : product.image
@@ -54,80 +55,32 @@ export default function ProductDetail() {
     : "/contact";
 
   return (
-    <section
-      className="section"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 40,
-        alignItems: "start",
-      }}
-    >
+    <section className="product-detail">
       {/* LEFT: Images */}
-      <div>
-        <div
-          style={{
-            borderRadius: 12,
-            overflow: "hidden",
-            border: "1px solid #ddd",
-            marginBottom: 16,
-          }}
-        >
+      <div className="product-gallery">
+        <div className="main-image">
           {mainImage ? (
             <img
               src={urlFor(mainImage).width(800).height(1000).url()}
               alt={title}
-              style={{
-                width: "100%",
-                height: "500px",
-                objectFit: "cover",
-                display: "block",
-              }}
             />
           ) : (
-            <div
-              style={{
-                height: "500px",
-                background: "#f3f4f6",
-                borderRadius: 12,
-              }}
-            />
+            <div className="placeholder" />
           )}
         </div>
 
         {images.length > 1 && (
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              paddingBottom: 8,
-            }}
-          >
+          <div className="thumbnails">
             {images.map((img, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => setActiveIndex(i)}
-                style={{
-                  flex: "0 0 auto",
-                  border:
-                    i === activeIndex ? "2px solid black" : "1px solid #ddd",
-                  borderRadius: 8,
-                  padding: 2,
-                  cursor: "pointer",
-                  background: "white",
-                }}
+                className={`thumb-btn ${i === activeIndex ? "active" : ""}`}
               >
                 <img
                   src={urlFor(img).width(200).height(200).url()}
                   alt={`${title} thumbnail ${i + 1}`}
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                    borderRadius: 6,
-                  }}
                 />
               </button>
             ))}
@@ -135,84 +88,25 @@ export default function ProductDetail() {
         )}
       </div>
 
-      {/* RIGHT: Product Info */}
-      <div>
-        <h1
-          style={{
-            fontFamily: "Playfair Display, serif",
-            fontSize: 36,
-            marginBottom: 8,
-          }}
-        >
-          {title}
-        </h1>
-        <div
-          style={{
-            fontSize: 22,
-            fontWeight: "600",
-            marginBottom: 16,
-            color: "#111827",
-          }}
-        >
-          {formatCurrency(price)}
-        </div>
+      {/* RIGHT: Info */}
+      <div className="product-info">
+        <h1>{title}</h1>
+        <div className="price">{formatCurrency(price)}</div>
 
-        {product.description && (
-          <p style={{ color: "#4b5563", lineHeight: 1.6 }}>
-            {product.description}
-          </p>
-        )}
+        {product.description && <p className="description">{product.description}</p>}
 
-        <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-          <button
-            className="btn"
-            onClick={handleAddToCart}
-            style={{
-              padding: "0.75rem 1.5rem",
-              border: "none",
-              borderRadius: 6,
-              background: "black",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
+        <div className="actions">
+          <button className="btn primary" onClick={handleAddToCart}>
             Add to Cart
           </button>
-          <a
-            className="btn outline"
-            href={waHref}
-            style={{
-              padding: "0.75rem 1.5rem",
-              border: "1px solid black",
-              borderRadius: 6,
-              background: "white",
-              color: "black",
-              cursor: "pointer",
-              textDecoration: "none",
-              display: "inline-block",
-            }}
-          >
+          <a href={waHref} className="btn outline">
             Contact to Order
           </a>
         </div>
 
-        <div style={{ marginTop: 16 }}>
-          <Link
-            to="/products"
-            className="btn outline"
-            style={{
-              display: "inline-block",
-              marginTop: 12,
-              padding: "0.5rem 1rem",
-              border: "1px solid #ddd",
-              borderRadius: 6,
-              textDecoration: "none",
-              color: "#374151",
-            }}
-          >
-            Continue Shopping
-          </Link>
-        </div>
+        <Link to="/products" className="btn outline continue">
+          Continue Shopping
+        </Link>
       </div>
     </section>
   );
