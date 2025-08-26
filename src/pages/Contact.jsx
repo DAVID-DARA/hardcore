@@ -80,7 +80,7 @@ export default function Contact() {
       <div style={{ marginTop: 16, color: "#6b7280", fontSize: 14 }}>
         {waNumber ? (
           <span>
-            Tip: Your message will open in WhatsApp chat ({waNumber}).
+            {/* Tip: Your message will open in WhatsApp chat ({waNumber}). */}
           </span>
         ) : (
           <span>
